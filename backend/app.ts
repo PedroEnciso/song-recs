@@ -1,9 +1,11 @@
 import express, { Express, Request, Response } from "express";
+import dotenv from "dotenv";
 import { generateRandomNumber } from "./utils/generateRandomNumber";
+import { SpotifySession } from "./utils/spotify";
 import type { Recommendation } from "./models/types";
 
 export const app: Express = express();
-
+dotenv.config();
 app.use(express.json());
 
 let recommendations: Recommendation[] = [
@@ -72,4 +74,15 @@ app.get("/api/recommendations/:id", (req: Request, res: Response) => {
   } else {
     res.status(404).json({ error: "This resource does not exist." });
   }
+});
+
+app.get("/api/songs", async (req: Request, res: Response) => {
+  const query = req.query.song as string;
+  const spotifySession = await SpotifySession();
+  const songs = await spotifySession.getSongsByQuery(query);
+  // TEST, delete later
+  const song = await spotifySession.getSongById("4EEjMyQub6tgFVshlM9j1M");
+  console.log("got song by id", song);
+  // ENDTEST
+  res.json(songs);
 });
