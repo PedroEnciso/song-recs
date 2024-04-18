@@ -3,10 +3,21 @@ import type { Recommendation } from "./types";
 
 const { Schema, model } = mongoose;
 
-const recommendationSchema = new Schema<Recommendation>({
-  spotify_song_id: String,
-  comment: String,
-  recommender: String,
+const recommendationSchema = new Schema<Recommendation>(
+  {
+    spotify_song_id: String,
+    comment: String,
+    recommender: String,
+  },
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
+
+// Create a virtual field 'id' that gets the `_id` value
+recommendationSchema.virtual("id").get(function () {
+  return this._id.toString();
 });
 
 recommendationSchema.set("toJSON", {
