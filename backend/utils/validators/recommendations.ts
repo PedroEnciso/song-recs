@@ -10,7 +10,7 @@ export function recommendationsPostValidator(
     throw new Error("Recommender is not defined");
   }
   if (!recommendation.comment) {
-    throw new Error("Comment is not defined");
+    recommendation.comment = "";
   }
   return recommendation;
 }
