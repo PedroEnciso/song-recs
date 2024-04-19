@@ -2,12 +2,16 @@ import { SpotifyApi } from "@spotify/web-api-ts-sdk";
 import type { Song } from "../models/types";
 
 export async function SpotifySession() {
+  const spotifyClientId = process.env.SPOTIFY_CLIENT_ID as string;
+  const spotifyClientSecret = process.env.SPOTIFY_CLIENT_SECRET as string;
+  const spotifyPlaylistId = process.env.SPOTIFY_PLAYLIST_ID as string;
+
   let sdk = initializeSpotifySDK();
 
   function initializeSpotifySDK() {
     return SpotifyApi.withClientCredentials(
-      process.env.SPOTIFY_CLIENT_ID as string,
-      process.env.SPOTIFY_CLIENT_SECRET as string
+      spotifyClientId,
+      spotifyClientSecret
     );
   }
 
@@ -34,5 +38,12 @@ export async function SpotifySession() {
     };
   }
 
-  return { getSongsByQuery, getSongById };
+  async function addSongToPlaylist(songId: string) {
+    const response = await sdk.playlists.addItemsToPlaylist(spotifyPlaylistId, [
+      `spotify:track:${songId}`,
+    ]);
+    console.log(response);
+  }
+
+  return { getSongsByQuery, getSongById, addSongToPlaylist };
 }
