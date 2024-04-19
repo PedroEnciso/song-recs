@@ -15,3 +15,5 @@ app.get("/", (req: Request, res: Response) => {
 });
 app.use("/api/recommendations", recommendationsRouter);
 app.use("/api/songs", songsRouter);
+
+export default app;
