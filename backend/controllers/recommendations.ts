@@ -44,11 +44,9 @@ recommendationsRouter.post(
       res.status(201).json(newRecommendation);
     } catch (error) {
       if (error instanceof Error) {
-        res
-          .status(500)
-          .json({ error: error.message || "Unable to create resource" });
+        res.status(400).json({ message: error.message });
       } else {
-        res.status(500).json({ error: "Unable to create resource" });
+        res.status(500).json({ message: "Unable to create resource" });
       }
     }
   }
