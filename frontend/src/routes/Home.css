@@ -1,8 +1,8 @@
 h1 {
-  font-size: 2.75rem;
-  font-weight: 700;
+  color: var(--text-dark);
 }
 
 .info-text {
   font-size: 1.15rem;
+  max-width: 65ch;
 }
