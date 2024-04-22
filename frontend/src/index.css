@@ -4,10 +4,35 @@
   --green: 43 66 56;
   --orange: 231 91 49;
   --off-white: 235 219 201;
+  --brown: 164 144 116;
 
-  --background-light: rgb(var(--white));
-  --text-dark: rgb(var(--black));
+  --black-russian: 2 2 28;
+  --white-smoke: 245 245 247;
+  --cream-can: 244 197 96;
+  --governor-bay: 74 70 227;
+  --iron: 215 215 222;
+
+  --mirage: 19 25 42;
+  --spring-wood: 250 247 239;
+  --fantasy: 246 236 225;
+  --flamingo: 229 112 91;
+  --paradiso: 74 147 138;
+  --keppel: 98 183 165;
+
+  --background-light: rgb(var(--spring-wood));
+  --text-dark: rgb(var(--mirage));
   --text-light: rgb(var(--black) / 0.8);
+  --color-fantasy: rgb(var(--fantasy));
+
+  --color-primary: rgb(var(--paradiso));
+  --color-secondary: rgb(var(--flamingo));
+  --color-tertiary: rgb(var(--keppel));
+  --color-focus: rgb(var(--cream-can));
+
+  --color-green: rgb(var(--green));
+  --color-orange: rgb(var(--orange));
+  --color-gray: rgb(var(--off-white));
+  --color-brown: rgb(var(--brown));
 }
 
 * {
@@ -16,10 +41,15 @@
   box-sizing: border-box;
 }
 
+*:focus {
+  outline: 2px solid var(--color-focus);
+}
+
 body {
   min-height: 100vh;
-  background-color: var(--background-light);
+  background-color: white;
   color: var(--text-light);
+  font-family: "Lato", sans-serif;
 }
 
 text-xl {
