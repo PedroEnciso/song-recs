@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "test": "NODE_ENV=test vitest run --pool=forks",
     "dev": "NODE_ENV=development ts-node-dev --watch ./ index.ts",
@@ -22,6 +21,7 @@
     "vitest": "^1.5.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/node": "^20.12.7",
     "@types/supertest": "^6.0.2",
