@@ -9,7 +9,7 @@ body {
   position: relative;
 }
 
-.main-background {
+/* .main-background {
   position: absolute;
   top: 0;
   height: 100%;
@@ -28,4 +28,4 @@ body {
   background-color: rgb(216, 190, 58);
   opacity: 60%;
   z-index: -1;
-}
+} */
