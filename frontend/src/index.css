@@ -1,3 +1,15 @@
+:root {
+  --black: 6 6 6;
+  --white: 241 235 226;
+  --green: 43 66 56;
+  --orange: 231 91 49;
+  --off-white: 235 219 201;
+
+  --background-light: rgb(var(--white));
+  --text-dark: rgb(var(--black));
+  --text-light: rgb(var(--black) / 0.8);
+}
+
 * {
   margin: 0px;
   padding: 0px;
@@ -6,26 +18,11 @@
 
 body {
   min-height: 100vh;
-  position: relative;
+  background-color: var(--background-light);
+  color: var(--text-light);
 }
 
-/* .main-background {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  background-image: url("./assets/inst.webp");
-  background-size: 250px;
-  background-repeat: repeat;
-  z-index: -1;
+text-xl {
+  font-size: 2.25rem;
+  font-weight: 700;
 }
-
-.main-background-overlay {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgb(216, 190, 58);
-  opacity: 60%;
-  z-index: -1;
-} */
