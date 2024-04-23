@@ -6,3 +6,11 @@ h1 {
   font-size: 1.15rem;
   max-width: 65ch;
 }
+
+.top-section {
+  margin-top: 2.5rem;
+}
+
+.form-section {
+  margin-top: 2rem;
+}
