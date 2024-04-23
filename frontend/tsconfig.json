@@ -20,6 +20,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
+    /* Testing globals */
+    "types": ["vitest/globals"],
+
     /* absolute paths */
     "baseUrl": "./",
     "paths": {
