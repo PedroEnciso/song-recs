@@ -3,10 +3,11 @@ import { SpotifySession } from "../utils/spotify";
 
 const songsRouter = Router();
 
-songsRouter.get("/", async (req: Request, res: Response) => {
+songsRouter.get("/", async (req: Request, res: Response, next) => {
   const query = req.query.song as string;
   if (!query || query === "") {
     res.status(400).json({ message: "No query was defined" });
+    return;
   }
   try {
     const spotifySession = await SpotifySession();
