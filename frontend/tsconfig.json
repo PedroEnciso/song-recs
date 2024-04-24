@@ -31,6 +31,6 @@
       "routes/*": ["./src/routes/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "public/tests"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
