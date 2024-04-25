@@ -14,3 +14,9 @@ export interface RecommendationWithSong {
   recommender: string;
   comment: string;
 }
+
+export interface RecommendationWithoutId {
+  spotify_song_id: string;
+  recommender: string;
+  comment: string;
+}
