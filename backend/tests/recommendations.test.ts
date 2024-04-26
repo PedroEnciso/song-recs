@@ -55,7 +55,6 @@ describe("POST api/recommendations", () => {
       .post("/api/recommendations")
       .send(testRecommendation)
       .set("Content-Type", "application/json");
-    console.log("checking status", res.status);
     expect(res.status).toBe(201);
   });
 
