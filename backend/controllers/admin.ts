@@ -16,7 +16,11 @@ const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 adminRouter.get("/login", (_req: Request, res: Response) => {
   // create secure state and save as a cookie
   const state = generateRandomString();
-  res.cookie(stateKey, state);
+  res.cookie(stateKey, state, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
 
   const url = `https://accounts.spotify.com/authorize?${querystring.stringify({
     response_type: "code",
@@ -26,9 +30,7 @@ adminRouter.get("/login", (_req: Request, res: Response) => {
     state,
   })}`;
 
-  console.log(url);
-
-  res.redirect(url);
+  res.json({ url });
 });
 
 adminRouter.get(
@@ -41,10 +43,12 @@ adminRouter.get(
     // no access code or previous state: 401
     if (!code || !storedState) {
       res.status(401).json({ error: "No access code provided" });
+      return;
     }
     // no state, incorrect state: 403
     if (!state || state !== storedState) {
       res.status(403).json({ error: "State mismatch" });
+      return;
     }
     // TODO: spotify user is not me: 403
 
@@ -83,16 +87,8 @@ adminRouter.get(
 
     const responseBody = await response.json();
 
-    if (responseBody.hasOwn("error")) {
-      /** responseBody = {
-            error: '',
-            error_description: ''
-          } */
-      // TODO: Handle error
-      console.log(
-        "There was an error getting the access token",
-        responseBody.error_description
-      );
+    if (responseBody.hasOwnProperty("error")) {
+      res.status(500).json({ error: responseBody.error_description });
     }
 
     // set cookies for new access & refresh token
