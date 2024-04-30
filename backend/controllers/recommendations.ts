@@ -8,27 +8,27 @@ import type {
 import { SpotifySession } from "../utils/spotify";
 
 const recommendationsRouter = Router();
-
-recommendationsRouter.get("/", async (req: Request, res: Response) => {
-  try {
-    const recommendations = await Recommendation.find({});
-    const spotify = await SpotifySession();
-    const recommendationsWithSpotifyData: RecommendationWithSong[] = [];
-    for (const rec of recommendations) {
-      const songData = await spotify.getSongById(rec.spotify_song_id);
-      recommendationsWithSpotifyData.push({
-        id: rec.id,
-        recommender: rec.recommender,
-        comment: rec.comment,
-        song: songData,
-      });
-    }
-    res.json(recommendationsWithSpotifyData);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Unable to find recommendations." });
-  }
-});
+/** Commented for now, only admin should be able to get recommendations */
+// recommendationsRouter.get("/", async (req: Request, res: Response) => {
+//   try {
+//     const recommendations = await Recommendation.find({});
+//     const spotify = await SpotifySession();
+//     const recommendationsWithSpotifyData: RecommendationWithSong[] = [];
+//     for (const rec of recommendations) {
+//       const songData = await spotify.getSongById(rec.spotify_song_id);
+//       recommendationsWithSpotifyData.push({
+//         id: rec.id,
+//         recommender: rec.recommender,
+//         comment: rec.comment,
+//         song: songData,
+//       });
+//     }
+//     res.json(recommendationsWithSpotifyData);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Unable to find recommendations." });
+//   }
+// });
 
 recommendationsRouter.post(
   "/",
