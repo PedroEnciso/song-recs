@@ -2,12 +2,16 @@ import { Router } from "express";
 import type { Request, Response } from "express";
 import querystring from "querystring";
 import generateRandomString from "../utils/generateRandomString";
+import Recommendation from "../models/Recommendation";
+import { SpotifySession } from "../utils/spotify";
+import { checkAuth } from "../middleware";
+import { RecommendationWithSong } from "../models/types";
 
 const adminRouter = Router();
 
 const stateKey = "spotify_auth_state";
-const accessTokenKey = "spotify_access_token";
-const refreshTokenKey = "spotify_refresh_token";
+export const accessTokenKey = "spotify_access_token";
+export const refreshTokenKey = "spotify_refresh_token";
 const scope = "playlist-modify-public";
 const redirect_uri = "http://localhost:5173/admin/authorize";
 const client_id = process.env.SPOTIFY_CLIENT_ID;
@@ -96,6 +100,30 @@ adminRouter.get(
     res.cookie(refreshTokenKey, responseBody.refresh_token);
 
     res.status(204).send();
+  }
+);
+
+adminRouter.get(
+  "/recommendations",
+  checkAuth,
+  async (req: Request, res: Response) => {
+    try {
+      const recommendations = await Recommendation.find({});
+      const spotify = await SpotifySession();
+      const recommendationsWithSpotifyData: RecommendationWithSong[] = [];
+      for (const rec of recommendations) {
+        const songData = await spotify.getSongById(rec.spotify_song_id);
+        recommendationsWithSpotifyData.push({
+          id: rec.id,
+          recommender: rec.recommender,
+          comment: rec.comment,
+          song: songData,
+        });
+      }
+      res.json(recommendationsWithSpotifyData);
+    } catch (error) {
+      res.status(500).json({ error: "Unable to find recommendations." });
+    }
   }
 );
 
