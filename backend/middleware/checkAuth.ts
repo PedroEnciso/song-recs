@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { accessTokenKey, refreshTokenKey } from "../controllers/admin";
+import { accessTokenKey, refreshTokenKey } from "../utils/cookieKeys";
 
 export async function checkAuth(
   req: Request,

@@ -6,12 +6,12 @@ import Recommendation from "../models/Recommendation";
 import { SpotifySession } from "../utils/spotify";
 import { checkAuth } from "../middleware";
 import { RecommendationWithSong } from "../models/types";
+import { accessTokenKey, refreshTokenKey } from "../utils/cookieKeys";
 
 const adminRouter = Router();
 
 const stateKey = "spotify_auth_state";
-export const accessTokenKey = "spotify_access_token";
-export const refreshTokenKey = "spotify_refresh_token";
+
 const scope = "playlist-modify-public";
 const redirect_uri = "http://localhost:5173/admin/authorize";
 const client_id = process.env.SPOTIFY_CLIENT_ID;
