@@ -5,6 +5,7 @@ export interface Recommendation {
   id: string;
   spotify_song_id: string;
   recommender: string;
+  user_id: string;
   comment: string;
 }
 

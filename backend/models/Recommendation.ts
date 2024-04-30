@@ -8,6 +8,7 @@ const recommendationSchema = new Schema<Recommendation>(
     spotify_song_id: String,
     comment: String,
     recommender: String,
+    user_id: String,
   },
   {
     toJSON: { virtuals: true },
