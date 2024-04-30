@@ -9,6 +9,7 @@ export async function postRecommendation(
       "Content-Type": "application/json",
     },
     body: JSON.stringify(recommendation),
+    credentials: "include",
   });
 
   if (!response.ok) {
