@@ -1,18 +1,19 @@
 import { Router, Request, Response } from "express";
 import Recommendation from "../models/Recommendation";
 import { recommendationsPostValidator } from "../utils/validators/recommendations";
-import { checkUser } from "../middleware/checkUser";
+import { checkUser } from "../middleware";
 import type { Recommendation as IRecommendation } from "../models/types";
+import { recommendationRateLimit } from "../middleware/recommendationRateLimit";
 
 const recommendationsRouter = Router();
 
 recommendationsRouter.post(
   "/",
+  recommendationRateLimit,
   checkUser,
   async (req: Request<{}, {}, IRecommendation>, res: Response) => {
     let recommendation = req.body;
     try {
-      console.log("The user id is: ", req.body.user_id);
       recommendation = recommendationsPostValidator(recommendation);
       const newRecommendation = await Recommendation.create({
         spotify_song_id: recommendation.spotify_song_id,
