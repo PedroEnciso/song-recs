@@ -1,0 +1,22 @@
+.nav_container {
+  display: flex;
+  gap: 1.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.nav_container a {
+  text-decoration: none;
+}
+
+.nav_container a:hover {
+  color: var(--color-primary);
+}
+
+.inactive {
+  color: var(--text-light);
+}
+
+.active {
+  color: var(--color-primary);
+}
