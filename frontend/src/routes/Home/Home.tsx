@@ -5,7 +5,7 @@ import styles from "./Home.module.css";
 function Home() {
   return (
     <>
-      <section className={styles["top-section"]}>
+      <section>
         <h1 className={styles["text-xl"]}>Welcome to song recs</h1>
         <p className={styles["info-text"]}>
           This app allows you to add a song to my spotify account. You will be
