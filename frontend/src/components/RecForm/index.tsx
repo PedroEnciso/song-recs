@@ -97,9 +97,9 @@ function RecForm({
           )}
           {mutation.postIsError ? (
             <p className={styles["error-message"]}>
-              {
-                "There was an issue posting this recommendation. Please refresh and try again"
-              }
+              {mutation.postError?.message === "429"
+                ? "You exceeeded the rate limit. Please try again in 10 minutes."
+                : "There was an issue posting this recommendation. Please refresh and try again."}
             </p>
           ) : null}
         </div>

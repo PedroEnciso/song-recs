@@ -13,7 +13,7 @@ export async function postRecommendation(
   });
 
   if (!response.ok) {
-    throw new Error("There was an issue posting");
+    throw new Error(`${response.status}`);
   }
 
   return response;
