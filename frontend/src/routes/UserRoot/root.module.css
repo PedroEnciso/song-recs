@@ -1,0 +1,13 @@
+.header {
+  padding: 2rem 0rem;
+  width: 95%;
+  margin: 0 auto;
+  max-width: 900px;
+}
+
+.main {
+  width: 95%;
+  min-height: calc(100vh - 82px);
+  margin: 0 auto;
+  max-width: 900px;
+}
