@@ -8,10 +8,8 @@ export async function checkUser(
   next: NextFunction
 ) {
   let user_id = req.cookies ? req.cookies[userIdKey] : null;
-  console.log("checking for a cookie, found ", user_id);
 
   if (!user_id) {
-    console.log("generating a new user id");
     // user has not been created yet
     user_id = generateRandomString();
     res.cookie(userIdKey, user_id, {
