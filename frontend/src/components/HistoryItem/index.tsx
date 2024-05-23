@@ -20,7 +20,7 @@ function HistoryItem({
         </div>
         <p>{recommender_comment}</p>
       </div>
-      <div className={styles.status_container}>
+      <div className={styles.admin_comment}>
         {status === "pending" ? (
           <p className={`status ${styles.pending}`}>No action yet</p>
         ) : null}
