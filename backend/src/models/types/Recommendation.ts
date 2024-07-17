@@ -2,7 +2,7 @@ import type { Recommender } from "./Recommender";
 import { Song } from "./Song";
 
 interface RecommendationBase {
-  id: string;
+  id: number;
   recommenderId: string;
   status: "pending" | "added" | "rejected";
 }

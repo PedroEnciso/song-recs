@@ -14,9 +14,9 @@ export const playlistTable = pgTable("playlist_table", {
 });
 export const recommendationTable = pgTable("recommendation_table", {
   id: serial("id").primaryKey(),
-  recommenderId: varchar("recommender_id"),
-  status: statusEnum("status"),
-  spotifySongId: varchar("spotify_song_id"),
+  recommenderId: varchar("recommender_id").notNull(),
+  status: statusEnum("status").notNull(),
+  spotifySongId: varchar("spotify_song_id").notNull(),
   playlistId: integer("playlist_id")
     .notNull()
     .references(() => playlistTable.id, { onDelete: "cascade" }),
