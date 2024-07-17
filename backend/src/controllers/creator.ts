@@ -7,6 +7,7 @@ import { SpotifySession } from "../utils/spotify";
 import { checkAuth } from "../middleware";
 import { RecommendationWithSong } from "../models/types";
 import { accessTokenKey, refreshTokenKey } from "../utils/cookieKeys";
+import { db } from "../db/client";
 
 const creatorRouter = Router();
 
@@ -109,16 +110,18 @@ creatorRouter.get(
   checkAuth,
   async (req: Request, res: Response) => {
     try {
-      const recommendations = await Recommendation.find({});
+      const recommendations = await db.query.recommendationTable.findMany({
+        where: (recommendations, { eq }) => eq(recommendations.playlistId, 123),
+      });
       const spotify = await SpotifySession();
       const recommendationsWithSpotifyData: RecommendationWithSong[] = [];
       for (const rec of recommendations) {
-        const songData = await spotify.getSongById(rec.spotify_song_id);
+        const songData = await spotify.getSongById(rec.spotifySongId);
         recommendationsWithSpotifyData.push({
           id: rec.id,
-          recommenderId: rec.id,
+          recommenderId: rec.recommenderId,
           song: songData,
-          status: "pending",
+          status: rec.status,
         });
       }
       res.json(recommendationsWithSpotifyData);
