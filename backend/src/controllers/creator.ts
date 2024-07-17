@@ -2,12 +2,12 @@ import { Router } from "express";
 import type { Request, Response } from "express";
 import querystring from "querystring";
 import generateRandomString from "../utils/generateRandomString";
-import Recommendation from "../models/Recommendation";
 import { SpotifySession } from "../utils/spotify";
-import { checkAuth } from "../middleware";
+import { checkAuth, getSpotifyId } from "../middleware";
 import { RecommendationWithSong } from "../models/types";
 import { accessTokenKey, refreshTokenKey } from "../utils/cookieKeys";
-import { db } from "../db/client";
+import type { InsertPlaylist } from "../db/schema";
+import dbAPI from "../utils/dbAPI";
 
 const creatorRouter = Router();
 
@@ -108,11 +108,15 @@ creatorRouter.get(
 creatorRouter.get(
   "/:playlistId/recommendations",
   checkAuth,
-  async (req: Request, res: Response) => {
+  async (
+    req: Request<{ playlistId: string }>,
+    res: Response<RecommendationWithSong[] | { error: string }>
+  ) => {
+    const { playlistId } = req.params;
     try {
-      const recommendations = await db.query.recommendationTable.findMany({
-        where: (recommendations, { eq }) => eq(recommendations.playlistId, 123),
-      });
+      const recommendations = await dbAPI.getPlaylistRecommendations(
+        parseInt(playlistId)
+      );
       const spotify = await SpotifySession();
       const recommendationsWithSpotifyData: RecommendationWithSong[] = [];
       for (const rec of recommendations) {
@@ -127,6 +131,26 @@ creatorRouter.get(
       res.json(recommendationsWithSpotifyData);
     } catch (error) {
       res.status(500).json({ error: "Unable to find recommendations." });
+    }
+  }
+);
+
+creatorRouter.post(
+  "/playlist",
+  getSpotifyId,
+  async (
+    req: Request<{}, {}, { name: string; spotify_user_id: string }>,
+    res: Response<InsertPlaylist | { error: string }>
+  ) => {
+    const { name, spotify_user_id } = req.body;
+    try {
+      const response = await dbAPI.insertPlaylist({
+        name,
+        creatorId: spotify_user_id,
+      });
+      res.status(201).json(response[0]);
+    } catch (error) {
+      res.status(500).json({ error: "Unable to create playlist." });
     }
   }
 );
