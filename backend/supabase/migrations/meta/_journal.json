@@ -15,6 +15,20 @@
       "when": 1721250773217,
       "tag": "0001_legal_paper_doll",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1721252591068,
+      "tag": "0002_complete_salo",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1721257952093,
+      "tag": "0003_right_rockslide",
+      "breakpoints": true
     }
   ]
 }
