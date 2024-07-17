@@ -8,7 +8,7 @@ import {
   afterEach,
 } from "vitest";
 import request, { Response } from "supertest";
-import app from "../app";
+import app from "../../app";
 import mongoose from "../utils/mongoose";
 import type {
   Recommendation as IRecommendation,

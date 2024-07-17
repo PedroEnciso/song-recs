@@ -1,6 +1,6 @@
 import { describe, test, expect, expectTypeOf } from "vitest";
 import request, { Response } from "supertest";
-import app from "../app";
+import app from "../../app";
 import type { Song } from "../models/types";
 
 const req = request(app);

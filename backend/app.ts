@@ -7,9 +7,9 @@ import cors from "cors";
 // cookies
 import cookieParser from "cookie-parser";
 // import routes
-import recommendationsRouter from "./controllers/recommendations";
-import songsRouter from "./controllers/songs";
-import creatorRouter from "./controllers/creator";
+import recommendationsRouter from "./src/controllers/recommendations";
+import songsRouter from "./src/controllers/songs";
+import creatorRouter from "./src/controllers/creator";
 
 export const app: Express = express();
 app.use(express.json());
