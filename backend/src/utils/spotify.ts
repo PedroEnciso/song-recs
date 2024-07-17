@@ -45,5 +45,9 @@ export async function SpotifySession() {
     console.log(response);
   }
 
-  return { getSongsByQuery, getSongById, addSongToPlaylist };
+  async function getUser() {
+    return await sdk.currentUser.profile();
+  }
+
+  return { getSongsByQuery, getSongById, addSongToPlaylist, getUser };
 }
