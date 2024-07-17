@@ -6,7 +6,7 @@ import { SpotifySession } from "../utils/spotify";
 import { checkAuth, getSpotifyId } from "../middleware";
 import { RecommendationWithSong } from "../models/types";
 import { accessTokenKey, refreshTokenKey } from "../utils/cookieKeys";
-import type { InsertPlaylist } from "../db/schema";
+import type { InsertPlaylist, InsertRecommendation } from "../db/schema";
 import dbAPI from "../utils/dbAPI";
 
 const creatorRouter = Router();
@@ -131,6 +131,37 @@ creatorRouter.get(
       res.json(recommendationsWithSpotifyData);
     } catch (error) {
       res.status(500).json({ error: "Unable to find recommendations." });
+    }
+  }
+);
+
+creatorRouter.patch(
+  "/:playlistId/recommendations/:recommendationId",
+  getSpotifyId,
+  async (
+    req: Request<
+      { playlistId: string; recommendationId: string },
+      {},
+      { spotify_user_id: string; newStatus: "added" | "pending" | "rejected" }
+    >,
+    res: Response<InsertRecommendation | { error: string }>
+  ) => {
+    const { playlistId, recommendationId } = req.params;
+    const { spotify_user_id, newStatus } = req.body;
+
+    try {
+      const playlist = await dbAPI.getPlaylist(parseInt(playlistId));
+      if (playlist?.creatorId === spotify_user_id) {
+        const updatedRecommendation = await dbAPI.updateRecommendationStatus(
+          newStatus,
+          parseInt(recommendationId)
+        );
+        res.status(204).json(updatedRecommendation[0]);
+      } else {
+        res.status(403).json({ error: "Not authorized to update resource." });
+      }
+    } catch (err) {
+      res.status(500).json({ error: "Unable to update the recommendation." });
     }
   }
 );
