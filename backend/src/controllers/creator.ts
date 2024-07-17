@@ -54,7 +54,6 @@ creatorRouter.get(
       res.status(403).json({ error: "State mismatch" });
       return;
     }
-    // TODO: spotify user is not me: 403
 
     // clear the cookie, no longer needed
     res.clearCookie(stateKey);
@@ -94,6 +93,8 @@ creatorRouter.get(
     if (responseBody.hasOwnProperty("error")) {
       res.status(500).json({ error: responseBody.error_description });
     }
+
+    // TODO: Create a new creator in db
 
     // set cookies for new access & refresh token
     res.cookie(accessTokenKey, responseBody.access_token);
