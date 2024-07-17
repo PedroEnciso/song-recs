@@ -9,7 +9,7 @@ import cookieParser from "cookie-parser";
 // import routes
 import recommendationsRouter from "./controllers/recommendations";
 import songsRouter from "./controllers/songs";
-import adminRouter from "./controllers/admin";
+import creatorRouter from "./controllers/creator";
 
 export const app: Express = express();
 app.use(express.json());
@@ -21,6 +21,6 @@ app.get("/", (req: Request, res: Response) => {
 });
 app.use("/api/recommendations", recommendationsRouter);
 app.use("/api/songs", songsRouter);
-app.use("/api/admin", adminRouter);
+app.use("/api/creator", creatorRouter);
 
 export default app;
