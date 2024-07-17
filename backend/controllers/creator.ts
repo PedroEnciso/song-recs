@@ -8,7 +8,7 @@ import { checkAuth } from "../middleware";
 import { RecommendationWithSong } from "../models/types";
 import { accessTokenKey, refreshTokenKey } from "../utils/cookieKeys";
 
-const adminRouter = Router();
+const creatorRouter = Router();
 
 const stateKey = "spotify_auth_state";
 
@@ -17,7 +17,7 @@ const redirect_uri = "http://localhost:5173/admin/authorize";
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 
-adminRouter.get("/login", (_req: Request, res: Response) => {
+creatorRouter.get("/login", (_req: Request, res: Response) => {
   // create secure state and save as a cookie
   const state = generateRandomString();
   res.cookie(stateKey, state, {
@@ -37,7 +37,7 @@ adminRouter.get("/login", (_req: Request, res: Response) => {
   res.json({ url });
 });
 
-adminRouter.get(
+creatorRouter.get(
   "/authorize",
   async (req: Request<{}, {}, {}, AuthorizeQueryParams>, res: Response) => {
     const code = req.query.code;
@@ -103,8 +103,8 @@ adminRouter.get(
   }
 );
 
-adminRouter.get(
-  "/recommendations",
+creatorRouter.get(
+  "/:playlistId/recommendations",
   checkAuth,
   async (req: Request, res: Response) => {
     try {
@@ -115,9 +115,9 @@ adminRouter.get(
         const songData = await spotify.getSongById(rec.spotify_song_id);
         recommendationsWithSpotifyData.push({
           id: rec.id,
-          recommender: rec.recommender,
-          comment: rec.comment,
+          recommenderId: rec.id,
           song: songData,
+          status: "pending",
         });
       }
       res.json(recommendationsWithSpotifyData);
@@ -127,7 +127,7 @@ adminRouter.get(
   }
 );
 
-export default adminRouter;
+export default creatorRouter;
 
 interface AuthorizeQueryParams {
   code: string;
