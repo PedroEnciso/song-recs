@@ -49,5 +49,23 @@ export async function SpotifySession() {
     return await sdk.currentUser.profile();
   }
 
-  return { getSongsByQuery, getSongById, addSongToPlaylist, getUser };
+  async function createNewPlaylist(
+    userId: string,
+    name: string,
+    description: string
+  ) {
+    return await sdk.playlists.createPlaylist(userId, {
+      name,
+      description,
+      public: true,
+    });
+  }
+
+  return {
+    getSongsByQuery,
+    getSongById,
+    addSongToPlaylist,
+    getUser,
+    createNewPlaylist,
+  };
 }
