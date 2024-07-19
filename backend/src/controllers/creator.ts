@@ -105,6 +105,7 @@ creatorRouter.get(
   }
 );
 
+// get all recommendations with their song info from a specific playlist
 creatorRouter.get(
   "/:playlistId/recommendations",
   checkAuth,
@@ -135,6 +136,7 @@ creatorRouter.get(
   }
 );
 
+// updates the status of a specific playlist
 creatorRouter.patch(
   "/:playlistId/recommendations/:recommendationId",
   getSpotifyId,
@@ -150,8 +152,25 @@ creatorRouter.patch(
     const { spotify_user_id, newStatus } = req.body;
 
     try {
-      const playlist = await dbAPI.getPlaylist(parseInt(playlistId));
+      // get the playlist from the db
+      const playlist = await dbAPI.getPlaylist(playlistId);
+      // TODO: get the recommndation from db
+      /* 
+        const recommendation = dbAPI.getRecommendation(recommendationId) 
+      */
+      // validate the the user id in the db matches the current user
       if (playlist?.creatorId === spotify_user_id) {
+        // add the song to the Spotify playlist if newStatus is "added"
+        // remove the song from the Spotify playlist if newStatus is "rejected" and playlist.status is "added"
+        if (newStatus === "added") {
+          // TODO: Add the song to the spotify playlist
+        } else if (
+          newStatus === "rejected" &&
+          /* recommendation.status === 'rejected */ true
+        ) {
+          // TODO: remove the song from the Spotify playlist
+        }
+        // update the status in db
         const updatedRecommendation = await dbAPI.updateRecommendationStatus(
           newStatus,
           parseInt(recommendationId)
@@ -166,19 +185,34 @@ creatorRouter.patch(
   }
 );
 
+// receives a new playlist from the creator
 creatorRouter.post(
   "/playlist",
   getSpotifyId,
   async (
-    req: Request<{}, {}, { name: string; spotify_user_id: string }>,
+    req: Request<
+      {},
+      {},
+      { name: string; description: string; spotify_user_id: string }
+    >,
     res: Response<InsertPlaylist | { error: string }>
   ) => {
-    const { name, spotify_user_id } = req.body;
+    const { name, description, spotify_user_id } = req.body;
     try {
+      // create a new playlist on the user's spotify account
+      const spotify = await SpotifySession();
+      const newPlaylist = await spotify.createNewPlaylist(
+        spotify_user_id,
+        name,
+        description
+      );
+      // create a playlist in the db with the new spotify playlist id
       const response = await dbAPI.insertPlaylist({
+        id: newPlaylist.id,
         name,
         creatorId: spotify_user_id,
       });
+      // send success response with the new playlist
       res.status(201).json(response[0]);
     } catch (error) {
       res.status(500).json({ error: "Unable to create playlist." });
