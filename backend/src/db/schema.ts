@@ -3,7 +3,7 @@ import { integer, pgTable, pgEnum, serial, varchar } from "drizzle-orm/pg-core";
 export const statusEnum = pgEnum("status", ["pending", "added", "rejected"]);
 
 export const playlistTable = pgTable("playlist_table", {
-  id: serial("id").primaryKey(),
+  id: varchar("id").primaryKey(),
   creatorId: varchar("creator_id").notNull(),
   name: varchar("name").notNull(),
 });
