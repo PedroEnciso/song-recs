@@ -4,7 +4,7 @@ import { playlistTable, recommendationTable } from "../db/schema";
 import { eq } from "drizzle-orm";
 
 const dbAPI = {
-  async getPlaylist(id: number) {
+  async getPlaylist(id: string) {
     return await db.query.playlistTable.findFirst({
       where: (playlists, { eq }) => eq(playlists.id, id),
     });
